@@ -18,9 +18,21 @@ public abstract class OpMode {
 
     public abstract void loop();
 
+    public boolean regularOpMode(){
+        return true;
+    }
+
     public OpMode(){
         hardwareMap = new HardwareMap();
         telemetry = new Telemetry();
+    }
+
+    public void sleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -8,8 +8,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -18,7 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
@@ -33,8 +31,8 @@ public class Main extends Application {
 
     public int button_size = width/2;
 
+    public static boolean programStarted = false;
     boolean autonSelected = true;
-
 
     OpMode program = null;
 
@@ -71,7 +69,6 @@ public class Main extends Application {
         for(Class<?> p : autos){
             //do disabled checking here
             autons.add(p);
-            System.out.println(p.getName());
         }
         select_autonomous.setPromptText("Select Autonomous");
 
@@ -118,7 +115,6 @@ public class Main extends Application {
         for(Class<?> p : teles){
             //do disabled checking here
             teleops.add(p);
-            System.out.println(p.getName());
         }
         select_teleop.setPromptText("Select TeleOp");
 
@@ -199,19 +195,23 @@ public class Main extends Application {
 
         button.setOnAction(value ->  {
             if(buttonPressCount[0] == 0){
-                initOpMode();
+                getProgram();
                 program.init();
                 button.setText("start");
 
             }else if(buttonPressCount[0] == 1){
-                programThread = new Thread(this::runOpMode);
-                programThread.start();
+                programStarted = true;
+                if(program.regularOpMode()){
+                    programThread = new Thread(this::runProgram);
+                    programThread.start();
+                }
 
                 button.setText("stop");
             }else if(buttonPressCount[0] == 2){
                 program.isStopped = true;
                 programThread.interrupt();
                 programThread = null;
+                stopProgram();
                 button.setText("init");
                 buttonPressCount[0] = -1;
             }
@@ -226,7 +226,7 @@ public class Main extends Application {
     }
 
     //function that initializes the selected auton or teleop
-    void initOpMode(){
+    void getProgram(){
         try {
             Class opMode;
             if(autonSelected){
@@ -243,11 +243,35 @@ public class Main extends Application {
 
     }
 
+    void initProgram(){
+        if(program.regularOpMode()){
+            //it is a regular opmode
+            program.init();
+        }else{
+            //its a linear opmode
+            programThread = new Thread(this::runProgram);
+            programThread.start();
+
+        }
+
+    }
+
     //function that will run the auton or teleop that @see initOpMode() selected
-    void runOpMode(){
+    void runProgram(){
         while(!program.isStopped){
             program.loop();
         }
+
+        stopProgram();
+    }
+
+    void stopProgram(){
+        try {
+            UdpMessageManager.send("STOP");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args) {

@@ -7,15 +7,24 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name = "teleop")
 public class TeleOpMode extends OpMode {
 
-    DcMotor motor = new DcMotor();
+    DcMotor leftFront = null;
+    DcMotor rightFront = null;
+    DcMotor leftRear = null;
+    DcMotor rightRear = null;
 
     @Override
     public void init() {
-        motor = hardwareMap.dcMotor.get("DcMotor");
+        leftFront = hardwareMap.dcMotor.get("lf");
+        rightFront = hardwareMap.dcMotor.get("rf");
+        leftRear = hardwareMap.dcMotor.get("lr");
+        rightRear = hardwareMap.dcMotor.get("rr");
     }
 
     @Override
     public void loop() {
-        motor.setPower(0.8);
+        leftFront.setPower(1);
+        rightFront.setPower(1);
+        leftRear.setPower(1);
+        rightRear.setPower(1);
     }
 }

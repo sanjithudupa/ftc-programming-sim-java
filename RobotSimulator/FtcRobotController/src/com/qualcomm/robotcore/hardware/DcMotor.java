@@ -19,7 +19,7 @@ public class DcMotor {
      */
     public int getCurrentPosition() {
         try {
-            return Integer.parseInt(UdpMessageManager.get("mpos-" + motorName));
+            return Integer.parseInt(UdpMessageManager.get("<mpos>" + motorName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class DcMotor {
     public void setPower(double power){
         String temp = "";
         try {
-            temp = UdpMessageManager.get(motorName + " power " + power);
+            temp = UdpMessageManager.get("<mp>" + motorName + "<v>" + power);
 
         } catch (IOException e) {
             e.printStackTrace();
