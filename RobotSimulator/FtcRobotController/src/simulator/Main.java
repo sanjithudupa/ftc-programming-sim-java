@@ -31,10 +31,18 @@ public class Main extends Application {
 
     public int button_size = width/2;
 
-    public static boolean programStarted = false;
+//    public static boolean programStarted = false;
     boolean autonSelected = true;
 
     OpMode program = null;
+
+    public static ThreadHelper threadHelper;
+
+    class ThreadHelper{
+        public ThreadHelper(){
+
+        }
+    }
 
     /**
      * UI Element Declarations
@@ -43,7 +51,7 @@ public class Main extends Application {
     ComboBox select_teleop = new ComboBox();
     RadioButton auto_radio = new RadioButton("a");
     RadioButton tele_radio = new RadioButton("t");
-    Button button = new Button("init");
+    public static Button main_button = new Button("init");
 
     Thread programThread;
 
@@ -186,33 +194,32 @@ public class Main extends Application {
             }
         });
 
-        button.setMinWidth(button_size);
-        button.setMinHeight(button_size);
-        button.setLayoutX((width/2) - (button_size/2));
-        button.setLayoutY((height/2) - (button_size/2));
+        main_button.setMinWidth(button_size);
+        main_button.setMinHeight(button_size);
+        main_button.setLayoutX((width/2) - (button_size/2));
+        main_button.setLayoutY((height/2) - (button_size/2));
 
-        button.setStyle("-fx-background-radius: 5em;");
+        main_button.setStyle("-fx-background-radius: 5em;");
 
-        button.setOnAction(value ->  {
+        main_button.setOnAction(value ->  {
             if(buttonPressCount[0] == 0){
                 getProgram();
-                program.init();
-                button.setText("start");
+                initProgram();
+                main_button.setText("start");
 
             }else if(buttonPressCount[0] == 1){
-                programStarted = true;
                 if(program.regularOpMode()){
                     programThread = new Thread(this::runProgram);
                     programThread.start();
                 }
 
-                button.setText("stop");
+                main_button.setText("stop");
             }else if(buttonPressCount[0] == 2){
                 program.isStopped = true;
                 programThread.interrupt();
                 programThread = null;
                 stopProgram();
-                button.setText("init");
+                main_button.setText("init");
                 buttonPressCount[0] = -1;
             }
 
@@ -220,7 +227,7 @@ public class Main extends Application {
 
         });
 
-        root.getChildren().addAll(button, select_autonomous, select_teleop, auto_radio, tele_radio);
+        root.getChildren().addAll(main_button, select_autonomous, select_teleop, auto_radio, tele_radio);
 
         return root;
     }
@@ -260,8 +267,8 @@ public class Main extends Application {
     void runProgram(){
         while(!program.isStopped){
             program.loop();
-        }
 
+        }
         stopProgram();
     }
 

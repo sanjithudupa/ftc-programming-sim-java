@@ -29,16 +29,18 @@ public abstract class LinearOpMode extends OpMode{
     }
 
     public void waitForStart(){
-        while(!Main.programStarted){
-            //wait
+
+        while(!Main.main_button.isPressed()){
+
         }
+
     }
 
     @Override
     public void loop() {
-//        if(!hasRun){
-//            runOpMode();
-//        }
+        if(!hasRun){
+            runOpMode();
+        }
         hasRun = true;
         isStopped = true;
     }
