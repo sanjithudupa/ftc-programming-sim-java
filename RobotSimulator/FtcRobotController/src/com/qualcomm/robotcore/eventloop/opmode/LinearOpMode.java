@@ -28,6 +28,11 @@ public abstract class LinearOpMode extends OpMode{
         runOpMode();
     }
 
+    /**
+     * Function that pauses the opMode until the start button is pressed again
+     *
+     */
+
     public void waitForStart(){
 
         while(!Main.main_button.isPressed()){

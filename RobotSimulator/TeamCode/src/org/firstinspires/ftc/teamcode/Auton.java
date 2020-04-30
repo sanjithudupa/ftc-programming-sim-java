@@ -23,12 +23,21 @@ public class Auton extends LinearOpMode {
 
         waitForStart();
 
+
+        telemetry.addData("Caption", "Value");
+
         leftFront.setPower(1);
         rightFront.setPower(1);
         leftRear.setPower(1);
         rightRear.setPower(1);
 
+
+//        telemetry.addData("",leftFront.getCurrentPosition());
+
+
         sleep(1000);
+
+        telemetry.update();
 
     }
 

@@ -6,12 +6,19 @@ import java.io.IOException;
 
 public class Telemetry {
 
-    static String readout = "";
-
     public void addData(String caption, Object value){
         try {
-            UdpMessageManager.send("tel_" + caption + "_" + value);
+            UdpMessageManager.send("<tel>" + caption + "<v>" + value);
             System.out.println(caption + " > " + value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(){
+        try {
+            UdpMessageManager.send("TEL_UP");
+            System.out.println("TEL_UP");
         } catch (IOException e) {
             e.printStackTrace();
         }

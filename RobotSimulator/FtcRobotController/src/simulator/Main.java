@@ -52,6 +52,7 @@ public class Main extends Application {
     RadioButton auto_radio = new RadioButton("a");
     RadioButton tele_radio = new RadioButton("t");
     public static Button main_button = new Button("init");
+    Button reset_button = new Button("reset robot");
 
     Thread programThread;
 
@@ -227,7 +228,21 @@ public class Main extends Application {
 
         });
 
-        root.getChildren().addAll(main_button, select_autonomous, select_teleop, auto_radio, tele_radio);
+        reset_button.setMinWidth(width/3);
+        reset_button.setLayoutX((width/2) - (width/6));
+        reset_button.setLayoutY((height/2) + (button_size/2) + 10);
+        reset_button.setStyle("-fx-background-radius: 3em;");
+
+        reset_button.setOnAction(value -> {
+            try {
+                UdpMessageManager.send("RESET");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        root.getChildren().addAll(main_button, reset_button, select_autonomous, select_teleop, auto_radio, tele_radio);
 
         return root;
     }
