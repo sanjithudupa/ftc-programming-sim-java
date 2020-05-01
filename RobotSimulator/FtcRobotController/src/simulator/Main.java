@@ -56,7 +56,7 @@ public class Main extends Application {
 
     Thread programThread;
 
-    final int[] buttonPressCount = {0};
+    public static final int[] buttonPressCount = {0};
 
     @Override
     public void start(Stage primaryStage){
@@ -298,6 +298,11 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    public static void stopp(){
+        buttonPressCount[0] = 2;
     }
 
 

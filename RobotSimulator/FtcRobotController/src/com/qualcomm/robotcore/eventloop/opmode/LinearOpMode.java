@@ -26,6 +26,7 @@ public abstract class LinearOpMode extends OpMode{
 
     @Override public void init(){
         runOpMode();
+        Main.stopp();
     }
 
     /**

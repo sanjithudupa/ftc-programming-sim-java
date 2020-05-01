@@ -19,7 +19,8 @@ public class DcMotor {
      */
     public int getCurrentPosition() {
         try {
-            return Integer.parseInt(UdpMessageManager.get("<mpos>" + motorName));
+            String output = (UdpMessageManager.get("<mpos>" + motorName));
+            return (int)Double.parseDouble(output.substring(output.indexOf(" ") + 1    ));
         } catch (IOException e) {
             e.printStackTrace();
         }

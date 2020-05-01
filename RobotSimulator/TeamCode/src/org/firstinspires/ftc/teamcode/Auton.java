@@ -15,6 +15,7 @@ public class Auton extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        telemetry.update();
 
         leftFront = hardwareMap.dcMotor.get("lf");
         rightFront = hardwareMap.dcMotor.get("rf");
@@ -23,21 +24,17 @@ public class Auton extends LinearOpMode {
 
         waitForStart();
 
-
-        telemetry.addData("Caption", "Value");
-
         leftFront.setPower(1);
         rightFront.setPower(1);
         leftRear.setPower(1);
         rightRear.setPower(1);
 
-
-//        telemetry.addData("",leftFront.getCurrentPosition());
-
-
         sleep(1000);
 
-        telemetry.update();
+        telemetry.addData("lf pos",leftFront.getCurrentPosition());
+        telemetry.addData("rf pos",rightFront.getCurrentPosition());
+        telemetry.addData("lr pos",leftRear.getCurrentPosition());
+        telemetry.addData("rr pos",rightRear.getCurrentPosition());
 
     }
 
