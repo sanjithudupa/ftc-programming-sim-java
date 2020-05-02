@@ -25,8 +25,8 @@ public class Auton extends LinearOpMode {
         waitForStart();
 
         leftFront.setPower(1);
-        rightFront.setPower(1);
         leftRear.setPower(1);
+        rightFront.setPower(1);
         rightRear.setPower(1);
 
         sleep(1000);

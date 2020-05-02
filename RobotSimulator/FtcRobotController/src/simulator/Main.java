@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -51,8 +52,11 @@ public class Main extends Application {
     ComboBox select_teleop = new ComboBox();
     RadioButton auto_radio = new RadioButton("a");
     RadioButton tele_radio = new RadioButton("t");
-    public static Button main_button = new Button("init");
     Button reset_button = new Button("reset robot");
+
+
+    public static Button main_button = new Button("init");
+    public static Text   error_text  = new Text("");
 
     Thread programThread;
 
